@@ -1,4 +1,4 @@
-# skillbox-cli-test
+# skillbox-vue
 
 ## Project setup
 ```
