@@ -14,27 +14,16 @@
       {{ product.price }} ₽
     </span>
 
-    <ul class="colors colors--black">
-      <li class="colors__item" v-for="colorId in product.colorIds" :key="colorId.id">
-        <label class="colors__label">
-          <input class="colors__radio sr-only" type="radio" name="color-1" :value="getColor(colorId).code" checked>
-          <span class="colors__value" :style="{backgroundColor: getColor(colorId).code}"></span>
-        </label>
-      </li>
-    </ul>
+    <color-picker :color-ids="product.colorIds" :black="true"/>
   </li>
 </template>
 
 <script>
-import colors from "@/data/colors";
+import ColorPicker from "@/components/ColorPicker";
 
 export default {
+  components: {ColorPicker},
   props: ['product'],
-  name: "ProductItem",
-  methods: {
-    getColor(id) {
-      return colors.find(el => el.id === id);
-    }
-  }
+  name: "ProductItem"
 }
 </script>
