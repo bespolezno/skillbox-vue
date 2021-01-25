@@ -32,29 +32,11 @@
                    alt="Название товара">
             </a>
           </li>
-          <li class="pics__item">
-            <a href="" class="pics__link">
-              <img width="98" height="98" src="img/phone-square-2.jpg" srcset="img/phone-square-2@2x.jpg 2x"
-                   alt="Название товара">
-            </a>
-          </li>
-          <li class="pics__item">
-            <a href="" class="pics__link">
-              <img width="98" height="98" src="img/phone-square-3.jpg" srcset="img/phone-square-3@2x.jpg 2x"
-                   alt="Название товара">
-            </a>
-          </li>
-          <li class="pics__item">
-            <a class="pics__link" href="#">
-              <img width="98" height="98" src="img/phone-square-4.jpg" srcset="img/phone-square-4@2x.jpg 2x"
-                   alt="Название товара">
-            </a>
-          </li>
         </ul>
       </div>
 
       <div class="item__info">
-        <span class="item__code">Артикул: 150030</span>
+        <span class="item__code">Артикул: {{ product.id }}</span>
         <h2 class="item__title">
           {{ product.title }}
         </h2>
