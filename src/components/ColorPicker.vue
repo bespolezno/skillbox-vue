@@ -1,5 +1,5 @@
 <template>
-  <ul class="colors" :class="{'colors--black': black}">
+  <ul class="colors">
     <li class="colors__item" v-for="color in colors" :key="color.id">
       <label class="colors__label">
         <input class="colors__radio sr-only" type="radio" name="color" v-model="currentColor" :value="color.id">
@@ -18,7 +18,7 @@ export default {
     prop: "colorId",
     event: "change"
   },
-  props: ["colorIds", "colorId", "black"],
+  props: ["colorIds", "colorId"],
   computed: {
     colors() {
       return this.colorIds.map(this.getColor);

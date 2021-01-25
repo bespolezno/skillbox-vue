@@ -14,7 +14,7 @@
       {{ product.price }} ₽
     </span>
 
-    <color-picker :color-ids="product.colorIds" :black="true"/>
+    <color-picker :color-ids="product.colorIds" class="colors--black"/>
   </li>
 </template>
 
