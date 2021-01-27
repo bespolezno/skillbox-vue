@@ -3,14 +3,14 @@
     <div class="content__top">
       <ul class="breadcrumbs">
         <li class="breadcrumbs__item">
-          <a class="breadcrumbs__link" href="#" @click.prevent="gotoPage('main')">
+          <router-link class="breadcrumbs__link" :to="{name: 'main'}">
             Каталог
-          </a>
+          </router-link>
         </li>
         <li class="breadcrumbs__item">
-          <a class="breadcrumbs__link" href="#" @click.prevent="gotoPage('main')">
+          <router-link class="breadcrumbs__link" :to="{name: 'main'}">
             {{ category.title }}
-          </a>
+          </router-link>
         </li>
         <li class="breadcrumbs__item">
           <a class="breadcrumbs__link">
@@ -196,7 +196,6 @@
 
 import products from "@/data/products";
 import categories from "@/data/categories";
-import gotoPage from "@/helpers/gotoPage";
 import numberFormat from "@/helpers/numberFormat";
 
 export default {
@@ -204,14 +203,11 @@ export default {
   props: ['pageParams'],
   computed: {
     product() {
-      return products.find(el => el.id === this.pageParams.id);
+      return products.find(el => el.id === +this.$route.params.id);
     },
     category() {
       return categories.find(el => el.id === this.product.categoryId);
     }
-  },
-  methods: {
-    gotoPage
   },
   filters: {
     numberFormat

@@ -1,8 +1,8 @@
 <template>
   <li class="catalog__item">
-    <a class="catalog__pic" href="#" @click.prevent="gotoPage('product', {id: product.id})">
+    <RouterLink class="catalog__pic" :to="{name: 'product', params: {id: product.id}}">
       <img :src="product.image" :alt="product.title">
-    </a>
+    </RouterLink>
 
     <h3 class="catalog__title">
       <a href="#">
@@ -20,16 +20,12 @@
 
 <script>
 import ColorPicker from "@/components/ColorPicker";
-import gotoPage from "@/helpers/gotoPage";
 import numberFormat from "@/helpers/numberFormat";
 
 export default {
   components: {ColorPicker},
   props: ['product'],
   name: "ProductItem",
-  methods: {
-    gotoPage
-  },
   filters: {
     numberFormat
   }
