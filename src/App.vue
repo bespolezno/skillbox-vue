@@ -12,12 +12,7 @@
           8 800 600 90 09
         </a>
 
-        <a class="header__cart" href="cart.html" aria-label="Корзина с товарами">
-          <svg width="30" height="21" fill="currentColor">
-            <use xlink:href="#icon-cart"></use>
-          </svg>
-          <span class="header__count" aria-label="Количество товаров">3</span>
-        </a>
+        <CartIndicator />
       </div>
     </header>
 
@@ -118,9 +113,13 @@
 </template>
 
 <script>
+import CartIndicator from "@/components/CartIndicator";
+
 export default {
   name: 'App',
-  components: {},
+  components: {
+    CartIndicator
+  },
 }
 </script>
 
