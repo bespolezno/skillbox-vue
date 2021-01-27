@@ -1,3 +1,5 @@
 export default function numberFormat(value) {
-    return new Intl.NumberFormat().format(value || 0);
+    if (Number.isNaN(value) || !value) return "";
+
+    return new Intl.NumberFormat().format(value);
 }
