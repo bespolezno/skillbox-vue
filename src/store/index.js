@@ -51,7 +51,7 @@ export default new Vuex.Store({
         cartTotalAmount(state) {
             return state.cartProducts
                 .map(el => el.amount)
-                .reduce((a, b) => a + b);
+                .reduce((a, b) => a + b, 0);
         }
     }
 });
