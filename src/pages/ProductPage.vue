@@ -207,6 +207,12 @@ export default {
       this.$store.commit('addProductToCart', {productId: this.product.id, amount: this.productAmount})
     }
   },
+  watch: {
+    '$route.params.id'(value) {
+      if (!products.find(el => el.id === +value))
+        this.$router.replace({name: 'notFound'});
+    }
+  },
   filters: {
     numberFormat
   }
