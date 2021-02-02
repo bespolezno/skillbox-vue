@@ -10,19 +10,14 @@
 </template>
 
 <script>
-import colors from "@/data/colors";
-
 export default {
   name: "ColorPicker",
   model: {
     prop: "colorId",
     event: "change"
   },
-  props: ["colorIds", "colorId"],
+  props: ["colors", "colorId"],
   computed: {
-    colors() {
-      return this.colorIds.map(this.getColor);
-    },
     currentColor: {
       get() {
         return this.colorId;
@@ -33,9 +28,6 @@ export default {
     }
   },
   methods: {
-    getColor(id) {
-      return colors.find(el => el.id === id);
-    }
   }
 }
 </script>

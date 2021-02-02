@@ -3,7 +3,8 @@
     <svg width="30" height="21" fill="currentColor">
       <use xlink:href="#icon-cart"></use>
     </svg>
-    <span class="header__count" aria-label="Количество товаров">{{ $store.getters.cartTotalAmount }}</span>
+    <span class="header__count" aria-label="Количество товаров" v-if="$store.state.cartLoading">Загрузка</span>
+    <span class="header__count" aria-label="Количество товаров" v-else>{{ $store.getters.cartTotalAmount }}</span>
   </RouterLink>
 </template>
 

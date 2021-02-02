@@ -10,9 +10,6 @@ import ProductItem from "@/components/ProductItem";
 export default {
   props: ['products'],
   components: {ProductItem},
-  name: "ProductList",
-  data: () => ({
-
-  })
+  name: "ProductList"
 }
 </script>

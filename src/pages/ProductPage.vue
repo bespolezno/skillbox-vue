@@ -1,5 +1,9 @@
 <template>
-  <main class="content container">
+  <main class="content container" v-if="productLoading">
+    <BaseLoader/>
+  </main>
+  <main class="content container" v-else-if="productLoadingFailed">Не удалось загрузить товар</main>
+  <main class="content container" v-else>
     <div class="content__top">
       <ul class="breadcrumbs">
         <li class="breadcrumbs__item">
@@ -23,16 +27,8 @@
     <section class="item">
       <div class="item__pics pics">
         <div class="pics__wrapper">
-          <img width="570" height="570" :src="product.image" :alt="product.title">
+          <img width="570" height="570" :src="product.image.file.url" :alt="product.title">
         </div>
-        <ul class="pics__list">
-          <li class="pics__item">
-            <a href="" class="pics__link pics__link--current">
-              <img width="98" height="98" src="img/phone-square-1.jpg" srcset="img/phone-square-1@2x.jpg 2x"
-                   alt="Название товара">
-            </a>
-          </li>
-        </ul>
       </div>
 
       <div class="item__info">
@@ -48,7 +44,7 @@
 
             <fieldset class="form__block">
               <legend class="form__legend">Цвет:</legend>
-              <ColorPicker :color-ids="product.colorIds"/>
+              <ColorPicker :colors="product.colors"/>
             </fieldset>
 
             <fieldset class="form__block">
@@ -85,10 +81,13 @@
             <div class="item__row">
               <AmountSelect v-model="productAmount"/>
 
-              <button class="button button--primery" type="submit">
+              <button class="button button--primery" type="submit" :disabled="productAddSending">
                 В корзину
               </button>
             </div>
+
+            <div v-show="productAdded">Товар добавлен в корзину</div>
+            <div v-show="productAddSending">Добавляем товар в корзину...</div>
           </form>
         </div>
       </div>
@@ -133,21 +132,25 @@
 
           <p>
             Wahoo ELEMNT BOLT GPS – это велокомпьютер, который позволяет оптимизировать свои велотренировки, сделав их
-            максимально эффективными. Wahoo ELEMNT BOLT GPS синхронизируется с датчиками по ANT+, объединяя полученную с
+            максимально эффективными. Wahoo ELEMNT BOLT GPS синхронизируется с датчиками по ANT+, объединяя полученную
+            с
             них информацию. Данные отображаются на дисплее, а также сохраняются на смартфоне. При этом на мобильное
             устройство можно установить как фирменное приложение, так и различные приложения сторонних разработчиков.
-            Велокомпьютер точно отслеживает местоположение, принимая сигнал с целого комплекса спутников. Эта информация
+            Велокомпьютер точно отслеживает местоположение, принимая сигнал с целого комплекса спутников. Эта
+            информация
             позволяет смотреть уже преодоленные маршруты и планировать новые велопрогулки.
           </p>
 
           <h3>Дизайн</h3>
 
           <p>
-            Велокомпьютер Wahoo ELEMNT BOLT очень компактный. Размеры устройства составляют всего 74,6 x 47,3 x 22,1 мм.
+            Велокомпьютер Wahoo ELEMNT BOLT очень компактный. Размеры устройства составляют всего 74,6 x 47,3 x 22,1
+            мм.
             что не превышает габариты смартфона. Корпус гаджета выполнен из черного пластика. На обращенной к
             пользователю стороне расположен дисплей диагональю 56 мм. На дисплей выводятся координаты и скорость, а
             также полученная со смартфона и синхронизированных датчиков информация: интенсивность, скорость вращения
-            педалей, пульс и т.д. (датчики не входят в комплект поставки). Корпус велокомпьютера имеет степень защиты от
+            педалей, пульс и т.д. (датчики не входят в комплект поставки). Корпус велокомпьютера имеет степень защиты
+            от
             влаги IPX7. Это означает, что устройство не боится пыли, а также выдерживает кратковременное (до 30 минут)
             погружение в воду на глубину не более 1 метра.
           </p>
@@ -159,43 +162,72 @@
 
 <script>
 
-import products from "@/data/products";
-import categories from "@/data/categories";
 import numberFormat from "@/helpers/numberFormat";
 import AmountSelect from "@/components/AmountSelect";
 import ColorPicker from "@/components/ColorPicker";
+import axios from "axios";
+import {API_BASE_URL} from "@/config";
+import BaseLoader from "@/components/BaseLoader";
+import {mapActions} from "vuex";
 
 export default {
   name: 'ProductPage',
   props: ['pageParams'],
   components: {
     AmountSelect,
-    ColorPicker
+    ColorPicker,
+    BaseLoader
   },
   data: () => ({
-    productAmount: 1
+    productAmount: 1,
+    productData: null,
+    productLoading: false,
+    productLoadingFailed: false,
+    productAdded: false,
+    productAddSending: false,
   }),
   computed: {
     product() {
-      return products.find(el => el.id === +this.$route.params.id);
+      return this.productData;
     },
     category() {
-      return categories.find(el => el.id === this.product.categoryId);
+      return this.productData.category;
     }
   },
   methods: {
-    addToCart() {
-      this.$store.commit('addProductToCart', {productId: this.product.id, amount: this.productAmount})
-    }
+    ...mapActions(['addProductToCart']),
+    async addToCart() {
+      this.productAdded = false;
+      this.productAddSending = true;
+
+      await this.addProductToCart({productId: this.product.id, amount: this.productAmount});
+
+      this.productAddSending = false;
+      this.productAdded = true;
+    },
+    async loadProduct() {
+      this.productLoading = true;
+      this.productLoadingFailed = false;
+      try {
+        const response = await axios.get(API_BASE_URL + `products/${this.$route.params.id}`);
+        this.productData = response.data;
+      } catch {
+        this.productLoadingFailed = true;
+      } finally {
+        this.productLoading = false;
+      }
+    },
   },
   watch: {
-    '$route.params.id'(value) {
-      if (!products.find(el => el.id === +value))
-        this.$router.replace({name: 'notFound'});
+    '$route.params.id': {
+      handler() {
+        this.loadProduct();
+      },
+      immediate: true
     }
   },
   filters: {
     numberFormat
-  }
+  },
 }
 </script>

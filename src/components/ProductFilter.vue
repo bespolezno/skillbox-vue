@@ -27,7 +27,7 @@
 
       <fieldset class="form__block">
         <legend class="form__legend">Цвет</legend>
-        <color-picker :color-ids="colorIds" v-model="currentColorId"/>
+        <color-picker :colors="colors" v-model="currentColorId"/>
       </fieldset>
 
       <fieldset class="form__block">
@@ -101,9 +101,9 @@
 </template>
 
 <script>
-import categories from "@/data/categories";
-import colors from "@/data/colors";
 import ColorPicker from "@/components/ColorPicker";
+import axios from "axios";
+import {API_BASE_URL} from "@/config";
 
 export default {
   name: "ProductFilter",
@@ -111,10 +111,10 @@ export default {
   props: ["priceFrom", "priceTo", "categoryId", "colorId"],
   computed: {
     categories() {
-      return categories;
+      return this.categoriesData?.items ?? [];
     },
-    colorIds() {
-      return colors.map(el => el.id);
+    colors() {
+      return this.colorsData?.items ?? [];
     }
   },
   data: () => ({
@@ -122,6 +122,8 @@ export default {
     currentPriceTo: 0,
     currentCategoryId: 0,
     currentColorId: 0,
+    categoriesData: null,
+    colorsData: null,
   }),
   watch: {
     priceFrom(value) {
@@ -149,7 +151,19 @@ export default {
       this.$emit("update:priceTo", 0);
       this.$emit("update:categoryId", 0);
       this.$emit("update:colorId", 0);
+    },
+    async loadCategories() {
+      const response = await axios.get(API_BASE_URL + 'productCategories');
+      this.categoriesData = response.data;
+    },
+    async loadColors() {
+      const response = await axios.get(API_BASE_URL + 'colors');
+      this.colorsData = response.data;
     }
+  },
+  created() {
+    this.loadCategories();
+    this.loadColors();
   }
 }
 </script>
