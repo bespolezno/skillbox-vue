@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import ColorPicker from "@/components/ColorPicker";
+import ColorPicker from "@/components/common/ColorPicker";
 import numberFormat from "@/helpers/numberFormat";
 
 export default {

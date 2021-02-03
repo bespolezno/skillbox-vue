@@ -31,7 +31,7 @@
 <script>
 import numberFormat from "@/helpers/numberFormat";
 import {mapActions} from "vuex";
-import AmountSelect from "@/components/AmountSelect";
+import AmountSelect from "@/components/common/AmountSelect";
 
 export default {
   name: 'CartItem',

@@ -163,11 +163,11 @@
 <script>
 
 import numberFormat from "@/helpers/numberFormat";
-import AmountSelect from "@/components/AmountSelect";
-import ColorPicker from "@/components/ColorPicker";
+import AmountSelect from "@/components/common/AmountSelect";
+import ColorPicker from "@/components/common/ColorPicker";
 import axios from "axios";
 import {API_BASE_URL} from "@/config";
-import BaseLoader from "@/components/BaseLoader";
+import BaseLoader from "@/components/common/BaseLoader";
 import {mapActions} from "vuex";
 
 export default {

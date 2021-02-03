@@ -24,12 +24,12 @@
 
 <script>
 
-import BasePagination from "@/components/BasePagination";
-import ProductList from "@/components/ProductList";
-import ProductFilter from "@/components/ProductFilter";
+import BasePagination from "@/components/common/BasePagination";
+import ProductList from "@/components/product/ProductList";
+import ProductFilter from "@/components/product/ProductFilter";
 import axios from "axios";
 import {API_BASE_URL} from "@/config";
-import BaseLoader from "@/components/BaseLoader";
+import BaseLoader from "@/components/common/BaseLoader";
 
 export default {
   name: 'MainPage',

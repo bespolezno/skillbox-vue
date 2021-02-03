@@ -51,8 +51,8 @@
 <script>
 import numberFormat from "@/helpers/numberFormat";
 import {mapGetters} from "vuex";
-import CartItem from "@/components/CartItem";
-import BaseLoader from "@/components/BaseLoader";
+import CartItem from "@/components/cart/CartItem";
+import BaseLoader from "@/components/common/BaseLoader";
 
 export default {
   name: 'CartPage',

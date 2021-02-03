@@ -101,7 +101,7 @@
 </template>
 
 <script>
-import ColorPicker from "@/components/ColorPicker";
+import ColorPicker from "@/components/common/ColorPicker";
 import axios from "axios";
 import {API_BASE_URL} from "@/config";
 
