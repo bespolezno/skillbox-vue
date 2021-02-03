@@ -55,15 +55,19 @@ export default {
       this.loadProducts();
     },
     filterCategoryId() {
+      this.page = 1;
       this.loadProducts();
     },
     filterColorId() {
+      this.page = 1;
       this.loadProducts();
     },
     filterPriceFrom() {
+      this.page = 1;
       this.loadProducts();
     },
     filterPriceTo() {
+      this.page = 1;
       this.loadProducts();
     }
   },
@@ -82,7 +86,6 @@ export default {
     loadProducts() {
       this.productsLoading = true;
       this.productsLoadingFailed = false;
-      this.page = 1;
 
       clearTimeout(this.loadProductsTimer);
       this.loadProductsTimer = setTimeout(async () => {

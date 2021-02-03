@@ -1,11 +1,14 @@
 <template>
   <div class="loader-wrapper">
-    <div class="sk-rotating-plane"></div>
+    <div :style="{background}" class="sk-rotating-plane"></div>
   </div>
 </template>
 
 <script>
-export default {}
+export default {
+  // inheritAttrs не работает, поэтому используется props
+  props: ['background']
+}
 </script>
 
 <style scoped>
@@ -14,11 +17,12 @@ export default {}
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 10px;
 }
 
 .sk-rotating-plane {
-  width: 100px;
-  height: 100px;
+  width: 50px;
+  height: 50px;
   margin: auto;
   background-color: #272727;
   animation: sk-rotating-plane 1.2s infinite ease-in-out;
