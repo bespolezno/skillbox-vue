@@ -69,11 +69,15 @@ export default new Vuex.Store({
         }
     },
     actions: {
-        async loadOrderInfo(context, orderId) {
-            const response = await axios.get(API_BASE_URL + 'orders/' + orderId, {
-                params: {userAccessKey: context.state.userAccessKey}
-            });
-            context.commit('updateOrderInfo', response.data);
+        async loadOrderInfo(context, {orderId, errCallback}) {
+            try {
+                const response = await axios.get(API_BASE_URL + 'orders/' + orderId, {
+                    params: {userAccessKey: context.state.userAccessKey}
+                });
+                context.commit('updateOrderInfo', response.data);
+            } catch (error) {
+                errCallback(error);
+            }
         },
         async loadCart(context) {
             context.state.cartLoading = true;

@@ -112,7 +112,10 @@ export default {
     if (this.$store.state.orderInfo?.id === this.$route.params.id) return;
 
     this.orderInfoLoading = true;
-    await this.$store.dispatch('loadOrderInfo', this.$route.params.id);
+    await this.$store.dispatch('loadOrderInfo', {
+      orderId: this.$route.params.id,
+      errCallback: () => this.$router.replace({name: 'notFound'})
+    });
     this.orderInfoLoading = false;
   },
   filters: {numberFormat}

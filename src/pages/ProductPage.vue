@@ -211,8 +211,10 @@ export default {
       try {
         const response = await axios.get(API_BASE_URL + `products/${this.$route.params.id}`);
         this.productData = response.data;
-      } catch {
+      } catch (error) {
         this.productLoadingFailed = true;
+        if (error.response.status === 404)
+          this.$router.replace({name: 'notFound'});
       } finally {
         this.productLoading = false;
       }
