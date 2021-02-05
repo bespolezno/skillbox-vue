@@ -103,20 +103,30 @@ export default {
   data: () => ({
     orderInfoLoading: false
   }),
+  methods: {
+    async loadOrderInfo() {
+      if (this.$store.state.orderInfo?.id === this.$route.params.id) return;
+
+      this.orderInfoLoading = true;
+      await this.$store.dispatch('loadOrderInfo', {
+        orderId: this.$route.params.id,
+        errCallback: () => this.$router.replace({name: 'notFound'})
+      });
+      this.orderInfoLoading = false;
+    }
+  },
   computed: {
     orderInfo() {
       return this.$store.state.orderInfo ?? {};
     }
   },
-  async created() {
-    if (this.$store.state.orderInfo?.id === this.$route.params.id) return;
-
-    this.orderInfoLoading = true;
-    await this.$store.dispatch('loadOrderInfo', {
-      orderId: this.$route.params.id,
-      errCallback: () => this.$router.replace({name: 'notFound'})
-    });
-    this.orderInfoLoading = false;
+  watch: {
+    '$route.params.id': {
+      handler() {
+        this.loadOrderInfo();
+      },
+      immediate: true
+    }
   },
   filters: {numberFormat}
 }
